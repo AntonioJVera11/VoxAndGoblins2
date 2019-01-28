@@ -34,10 +34,10 @@ public class VoxAndGoblinsFX extends Application {
     int posicion2 = 1280;
     int velocidad = 0;
     int velocidadCristo = -10;
-    int toreroY = 383;
+    int toreroY = 380;
     int toreroX = 45;
-    int agachadoX = 30;
-    int agachadoY = 350;
+    int agachadoX = -50;
+    int agachadoY = 373;
     int scoreX = -460;
     int scoreY = -100;
     int cristoX = -480;
@@ -51,11 +51,13 @@ public class VoxAndGoblinsFX extends Application {
     Image image;
     Image torero;
     Image toreroAgachado;
+    Image intro;
     ImageView imageView1;
     ImageView imageView2;
     ImageView imageViewScore;
     ImageView torerogif;
     ImageView toreroAgachado1;
+    ImageView intro1;
     Scene scene;
     
     //Método de la puntuación
@@ -90,6 +92,16 @@ public class VoxAndGoblinsFX extends Application {
         root.getChildren().add(imageView1);
         root.getChildren().add(imageView2);
     }  
+   
+    //Método de la intro
+    public void intro () {
+        intro = new Image(getClass().getResourceAsStream("images/Intro.jpg"));
+        intro1 = new ImageView();
+        intro1.setImage(intro);
+        intro1.setFitHeight(720);
+        intro1.setFitWidth(1280);
+        root.getChildren().add(intro1);
+    }   
     
     //Método del gif del torero
     public void torero () {
@@ -98,8 +110,8 @@ public class VoxAndGoblinsFX extends Application {
         torerogif.setImage(torero);
         torerogif.setX(toreroX);
         torerogif.setY(toreroY);
-        torerogif.setScaleX(1);
-        torerogif.setScaleY(1);
+        torerogif.setScaleX(1.1);
+        torerogif.setScaleY(1.1);
         root.getChildren().add(torerogif);
     }
     
@@ -110,8 +122,8 @@ public class VoxAndGoblinsFX extends Application {
         toreroAgachado1.setImage(toreroAgachado);
         toreroAgachado1.setX(agachadoX);
         toreroAgachado1.setY(agachadoY);
-        toreroAgachado1.setScaleX(0.5);
-        toreroAgachado1.setScaleY(0.5);
+        toreroAgachado1.setScaleX(0.4);
+        toreroAgachado1.setScaleY(0.4);
         root.getChildren().add(toreroAgachado1);
     }
     
@@ -145,8 +157,11 @@ public class VoxAndGoblinsFX extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         this.fondo();
-        this.torero();       
+        this.torero();
+        this.toreroAbajo();
+        toreroAgachado1.setVisible(false);
         this.score();
+        this.intro();
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
                 case W:
@@ -156,9 +171,10 @@ public class VoxAndGoblinsFX extends Application {
                     break;
                 case S:
                    torerogif.setVisible(false);
+                   toreroAgachado1.setVisible(true);
                     break;
                 case ENTER:
-                    this.toreroAbajo();
+                    intro1.setVisible(false);
                     velocidad = -4;
                     break;
                 case D:
@@ -186,6 +202,7 @@ public class VoxAndGoblinsFX extends Application {
         scene.setOnKeyReleased((KeyEvent event) -> {
             torerogif.setVisible(true);
             toreroAgachado1.setVisible(false);
+            intro1.setVisible(false);
             velocidadTorero = downSpeed;
         });   
         AnimationTimer movimiento = new AnimationTimer () {
@@ -204,10 +221,10 @@ public class VoxAndGoblinsFX extends Application {
             toreroY+=velocidadTorero;
             torerogif.setY(toreroY);
             
-            if (toreroY >= 383) {
+            if (toreroY >= 368) {
                 velocidadTorero = 0;
             }
-            if (toreroY <= 203) {
+            if (toreroY <= 150) {
                 velocidadTorero = downSpeed;
             }
         };                   
