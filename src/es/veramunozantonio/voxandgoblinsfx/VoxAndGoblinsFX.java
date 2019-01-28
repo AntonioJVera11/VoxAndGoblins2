@@ -14,9 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 //Copyright
@@ -44,6 +47,7 @@ public class VoxAndGoblinsFX extends Application {
     int cristoY = 160;
     int downSpeed = 5;
     int upSpeed = -20;
+    int scoreSize;
     Group cristo;
     Image fondo1;
     Image fondo2;
@@ -60,8 +64,8 @@ public class VoxAndGoblinsFX extends Application {
     ImageView intro1;
     Scene scene;
     
-    //Método de la puntuación
-    public void score () {
+    //Método de la imagen SCORE
+    public void scoreImg () {
         imageScore = new Image(getClass().getResourceAsStream("images/Score.png"));
         imageViewScore = new ImageView();
         imageViewScore.setImage(imageScore);
@@ -71,6 +75,15 @@ public class VoxAndGoblinsFX extends Application {
         imageViewScore.setY(scoreY);       
         root.getChildren().add(imageViewScore);
     }
+    
+    //Método de la puntuacion
+//    public void scorePoints () {
+//        HBox paneScores = new Hbox();
+//        paneScores.setX
+//        Text textScore = new Text("0");
+//        textScore.setFont(Font.font(scoreSize));
+//        textScore.setFill(Color.RED);
+//    }
     
     //Método del reinicio
     public void reinicio () {    
@@ -160,7 +173,7 @@ public class VoxAndGoblinsFX extends Application {
         this.torero();
         this.toreroAbajo();
         toreroAgachado1.setVisible(false);
-        this.score();
+        this.scoreImg();
         this.intro();
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
