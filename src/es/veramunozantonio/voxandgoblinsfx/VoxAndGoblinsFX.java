@@ -6,6 +6,7 @@
 package es.veramunozantonio.voxandgoblinsfx;
 
 //Aquí guardamos todos los import necesarios
+import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -36,38 +37,67 @@ public class VoxAndGoblinsFX extends Application {
     int posicion1 = 0;
     int posicion2 = 1280;
     int velocidad = 0;
-    int velocidadCristo = -10;
     int toreroY = 380;
     int toreroX = 45;
-    int agachadoX = -50;
-    int agachadoY = 373;
-    int scoreX = -460;
-    int scoreY = -100;
-    int cristoX = -480;
-    int cristoY = 160;
     int downSpeed = 5;
     int upSpeed = -20;
+    int echeniqueX = 1500;
+    int banderaX = 1500;
     int scoreSize;
-    Group cristo;
-    Image fondo1;
-    Image fondo2;
-    Image imageScore;
     Image image;
     Image torero;
+    Image echenique;
+    Image bandera;
     Image toreroAgachado;
     Image intro;
     ImageView imageView1;
     ImageView imageView2;
-    ImageView imageViewScore;
     ImageView torerogif;
     ImageView toreroAgachado1;
+    ImageView echeniquegif;
+    ImageView banderagif;
     ImageView intro1;
     Scene scene;
     
+    //Método para Echenique
+    public void echeniqueGif () {
+        echenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
+        echeniquegif = new ImageView();
+        echeniquegif.setImage(echenique);
+        echeniquegif.setX(echeniqueX);
+        echeniquegif.setY(170);
+        echeniquegif.setScaleX(0.3);
+        echeniquegif.setScaleY(0.3);
+        root.getChildren().add(echeniquegif);
+    }
+    
+    //Método para la bandera
+    public void banderaGif () {
+        bandera = new Image(getClass().getResourceAsStream("images/republica.gif"));
+        banderagif = new ImageView();
+        banderagif.setImage(bandera);
+        banderagif.setX(banderaX);
+        banderagif.setY(170);
+        banderagif.setScaleX(1);
+        banderagif.setScaleY(1);
+        root.getChildren().add(banderagif);
+    }
+    
+    //Método para los obstáculos
+    public void obstáculos () {
+      Random random = new Random();
+      
+    }
+    
+    
     //Método de la imagen SCORE
     public void scoreImg () {
+        Image imageScore;
         imageScore = new Image(getClass().getResourceAsStream("images/Score.png"));
+        ImageView imageViewScore;
         imageViewScore = new ImageView();
+        int scoreX = -460;
+        int scoreY = -100;
         imageViewScore.setImage(imageScore);
         imageViewScore.setScaleX(0.2);
         imageViewScore.setScaleY(0.2); 
@@ -76,15 +106,6 @@ public class VoxAndGoblinsFX extends Application {
         root.getChildren().add(imageViewScore);
     }
     
-    //Método de la puntuacion
-//    public void scorePoints () {
-//        HBox paneScores = new Hbox();
-//        paneScores.setX
-//        Text textScore = new Text("0");
-//        textScore.setFont(Font.font(scoreSize));
-//        textScore.setFill(Color.RED);
-//    }
-    
     //Método del reinicio
     public void reinicio () {    
         
@@ -92,6 +113,8 @@ public class VoxAndGoblinsFX extends Application {
     
     //Método del fondo
     public void fondo () {
+        Image fondo1;
+        Image fondo2;
         fondo1 = new Image(getClass().getResourceAsStream("images/Fondo.jpg"));
         fondo2 = new Image(getClass().getResourceAsStream("images/Fondo.jpg"));
         imageView1 = new ImageView();
@@ -132,6 +155,8 @@ public class VoxAndGoblinsFX extends Application {
     public void toreroAbajo () {
         toreroAgachado = new Image(getClass().getResourceAsStream("images/Agachado.png"));
         toreroAgachado1 = new ImageView();
+        int agachadoX = -50;
+        int agachadoY = 373;
         toreroAgachado1.setImage(toreroAgachado);
         toreroAgachado1.setX(agachadoX);
         toreroAgachado1.setY(agachadoY);
@@ -142,6 +167,7 @@ public class VoxAndGoblinsFX extends Application {
     
     //Método del grupo cristo
     public void cristo () {
+        Group cristo;
         cristo = new Group();
         Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
         cristo1.setFill(Color.BROWN);
@@ -155,6 +181,8 @@ public class VoxAndGoblinsFX extends Application {
         Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
         cristo4.setFill(Color.BROWN);
         cristo.getChildren().add(cristo4);
+        int cristoX = -480;
+        int cristoY = 160;
         cristo.setLayoutX(cristoX);
         cristo.setLayoutY(cristoY);
         cristo.setScaleX(0.8);
@@ -173,8 +201,13 @@ public class VoxAndGoblinsFX extends Application {
         this.torero();
         this.toreroAbajo();
         toreroAgachado1.setVisible(false);
+        this.echeniqueGif();
+        echeniquegif.setVisible(false);
+        this.banderaGif();
+        banderagif.setVisible(false);
         this.scoreImg();
         this.intro();
+        //Declaración del comportamiento de las teclas
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
                 case W:
@@ -191,6 +224,7 @@ public class VoxAndGoblinsFX extends Application {
                     velocidad = -4;
                     break;
                 case D:
+                    Group cristo;
                     cristo = new Group();
                     Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
                     cristo1.setFill(Color.BROWN);
@@ -204,6 +238,8 @@ public class VoxAndGoblinsFX extends Application {
                     Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
                     cristo4.setFill(Color.BROWN);
                     cristo.getChildren().add(cristo4);
+                    int cristoX = -480;
+                    int cristoY = 160;
                     cristo.setLayoutX(cristoX);
                     cristo.setLayoutY(cristoY);
                     cristo.setScaleX(0.8);
@@ -214,10 +250,13 @@ public class VoxAndGoblinsFX extends Application {
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
             torerogif.setVisible(true);
+            echeniquegif.setVisible(true);
+            banderagif.setVisible(true);
             toreroAgachado1.setVisible(false);
             intro1.setVisible(false);
             velocidadTorero = downSpeed;
-        });   
+        });
+        //Método del scroll del fondo
         AnimationTimer movimiento = new AnimationTimer () {
             @Override
             public void handle (long now) {                
@@ -233,7 +272,7 @@ public class VoxAndGoblinsFX extends Application {
                 }                          
             toreroY+=velocidadTorero;
             torerogif.setY(toreroY);
-            
+            //Límites para la posición del torero
             if (toreroY >= 368) {
                 velocidadTorero = 0;
             }
