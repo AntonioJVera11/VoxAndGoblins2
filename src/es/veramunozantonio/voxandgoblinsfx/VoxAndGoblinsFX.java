@@ -39,10 +39,15 @@ public class VoxAndGoblinsFX extends Application {
     int velocidad = 0;
     int toreroY = 380;
     int toreroX = 45;
-    int downSpeed = 5;
+    int downSpeed = 2;
     int upSpeed = -20;
     int echeniqueX = 1500;
-    int banderaX = 1500;
+    int echeniqueY = 475;
+    int banderaY = 350;
+    int banderaX = 2500;
+    int cristoX = -480;
+    int cristoY = 160;
+    int aleatorio;
     int scoreSize;
     Image image;
     Image torero;
@@ -53,6 +58,7 @@ public class VoxAndGoblinsFX extends Application {
     ImageView imageView1;
     ImageView imageView2;
     ImageView torerogif;
+    ImageView obstaculo;
     ImageView toreroAgachado1;
     ImageView echeniquegif;
     ImageView banderagif;
@@ -65,9 +71,7 @@ public class VoxAndGoblinsFX extends Application {
         echeniquegif = new ImageView();
         echeniquegif.setImage(echenique);
         echeniquegif.setX(echeniqueX);
-        echeniquegif.setY(170);
-        echeniquegif.setScaleX(0.3);
-        echeniquegif.setScaleY(0.3);
+        echeniquegif.setY(echeniqueY);
         root.getChildren().add(echeniquegif);
     }
     
@@ -77,18 +81,52 @@ public class VoxAndGoblinsFX extends Application {
         banderagif = new ImageView();
         banderagif.setImage(bandera);
         banderagif.setX(banderaX);
-        banderagif.setY(170);
-        banderagif.setScaleX(1);
-        banderagif.setScaleY(1);
+        banderagif.setY(banderaY);
         root.getChildren().add(banderagif);
     }
     
-    //Método para los obstáculos
-    public void obstáculos () {
+    
+    public void obstRandom () {
       Random random = new Random();
-      
+      aleatorio = random.nextInt(2);
+      switch (aleatorio) {
+        case 0:
+            obstaculo.setImage(echenique);
+            obstaculo.setX(echeniqueX);
+            obstaculo.setY(475);
+            root.getChildren().add(obstaculo);
+            break;
+        case 1:
+            obstaculo = new ImageView();
+            obstaculo.setImage(bandera);
+            obstaculo.setX(banderaX);
+            obstaculo.setY(350);
+            root.getChildren().add(obstaculo);
+            break;
+    }
     }
     
+       //Método para los obstáculos
+    public void obstaculos () {
+
+      AnimationTimer obstaculos = new AnimationTimer () {
+      @Override
+      public void handle(long now) {
+          echeniquegif.setY(echeniqueY);
+          banderagif.setY(banderaY);
+          echeniqueX+=velocidad;
+          banderaX+=velocidad;
+          obstRandom();
+          if (echeniqueX <= 0) {
+              echeniqueX = 1500;
+          }
+          if (banderaX <= 0) {
+            banderaX = 2500;
+          }
+      }
+      };
+      obstaculos.start();
+    }
     
     //Método de la imagen SCORE
     public void scoreImg () {
@@ -146,8 +184,6 @@ public class VoxAndGoblinsFX extends Application {
         torerogif.setImage(torero);
         torerogif.setX(toreroX);
         torerogif.setY(toreroY);
-        torerogif.setScaleX(1.1);
-        torerogif.setScaleY(1.1);
         root.getChildren().add(torerogif);
     }
     
@@ -222,24 +258,24 @@ public class VoxAndGoblinsFX extends Application {
                 case ENTER:
                     intro1.setVisible(false);
                     velocidad = -4;
+                    this.obstaculos();
                     break;
                 case D:
                     Group cristo;
                     cristo = new Group();
                     Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
-                    cristo1.setFill(Color.BROWN);
+                    cristo1.setFill(Color.BEIGE);
                     cristo.getChildren().add(cristo1);
                     Rectangle cristo2 = new Rectangle(640, 360, 20, 6);
-                    cristo2.setFill(Color.BROWN);
+                    cristo2.setFill(Color.BEIGE);
                     cristo.getChildren().add(cristo2);
                     Rectangle cristo3 = new Rectangle(640, 350, 6, 30);
-                    cristo3.setFill(Color.BROWN);
+                    cristo3.setFill(Color.BEIGE);
                     cristo.getChildren().add(cristo3);
                     Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
-                    cristo4.setFill(Color.BROWN);
+                    cristo4.setFill(Color.BEIGE);
                     cristo.getChildren().add(cristo4);
-                    int cristoX = -480;
-                    int cristoY = 160;
+                    cristoX+=velocidad;
                     cristo.setLayoutX(cristoX);
                     cristo.setLayoutY(cristoY);
                     cristo.setScaleX(0.8);
@@ -273,7 +309,7 @@ public class VoxAndGoblinsFX extends Application {
             toreroY+=velocidadTorero;
             torerogif.setY(toreroY);
             //Límites para la posición del torero
-            if (toreroY >= 368) {
+            if (toreroY >= 380) {
                 velocidadTorero = 0;
             }
             if (toreroY <= 150) {
@@ -282,5 +318,13 @@ public class VoxAndGoblinsFX extends Application {
         };                   
         };
         movimiento.start(); 
+        
+        //Método de los obstáculos
+//        AnimationTimer obstaculos = new AnimationTimer () {
+//            @Override
+//            public void handle (long now) {
+//                
+//            }
+//        };
     }
 };
