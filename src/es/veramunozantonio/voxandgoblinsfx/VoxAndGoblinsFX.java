@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Este gran videojuego pertenece a Antonio Juan Vera Muñoz
+Copyright 2019 Antonio Juan Vera Muñoz
  */
 package es.veramunozantonio.voxandgoblinsfx;
 
@@ -39,7 +38,7 @@ public class VoxAndGoblinsFX extends Application {
     int velocidad = 0;
     int toreroY = 380;
     int toreroX = 45;
-    int downSpeed = 2;
+    int downSpeed = 4;
     int upSpeed = -20;
     int echeniqueX = 1500;
     int echeniqueY = 475;
@@ -58,7 +57,7 @@ public class VoxAndGoblinsFX extends Application {
     ImageView imageView1;
     ImageView imageView2;
     ImageView torerogif;
-    ImageView obstaculo;
+    ImageView obstaculo = new ImageView();
     ImageView toreroAgachado1;
     ImageView echeniquegif;
     ImageView banderagif;
@@ -84,8 +83,8 @@ public class VoxAndGoblinsFX extends Application {
         banderagif.setY(banderaY);
         root.getChildren().add(banderagif);
     }
-    
-    
+   
+    //Switch case de los obstáculos
     public void obstRandom () {
       Random random = new Random();
       aleatorio = random.nextInt(2);
@@ -94,19 +93,16 @@ public class VoxAndGoblinsFX extends Application {
             obstaculo.setImage(echenique);
             obstaculo.setX(echeniqueX);
             obstaculo.setY(475);
-            root.getChildren().add(obstaculo);
             break;
         case 1:
-            obstaculo = new ImageView();
             obstaculo.setImage(bandera);
             obstaculo.setX(banderaX);
             obstaculo.setY(350);
-            root.getChildren().add(obstaculo);
             break;
-    }
+        }
     }
     
-       //Método para los obstáculos
+    //Método para los obstáculos
     public void obstaculos () {
 
       AnimationTimer obstaculos = new AnimationTimer () {
@@ -114,8 +110,8 @@ public class VoxAndGoblinsFX extends Application {
       public void handle(long now) {
           echeniquegif.setY(echeniqueY);
           banderagif.setY(banderaY);
-          echeniqueX+=velocidad;
-          banderaX+=velocidad;
+          echeniqueX+= velocidad;
+          banderaX += velocidad;
           obstRandom();
           if (echeniqueX <= 0) {
               echeniqueX = 1500;
@@ -146,8 +142,14 @@ public class VoxAndGoblinsFX extends Application {
     
     //Método del reinicio
     public void reinicio () {    
-        
-    }  
+        toreroY = 380;
+        toreroX = 45;
+        imageView1.setX(posicion1);
+        imageView2.setX(posicion2);
+        obstaculos();
+        obstRandom();
+        intro();   
+    } 
     
     //Método del fondo
     public void fondo () {
@@ -221,8 +223,6 @@ public class VoxAndGoblinsFX extends Application {
         int cristoY = 160;
         cristo.setLayoutX(cristoX);
         cristo.setLayoutY(cristoY);
-        cristo.setScaleX(0.8);
-        cristo.setScaleY(0.8);
         root.getChildren().add(cristo);        
     }
     
@@ -261,26 +261,11 @@ public class VoxAndGoblinsFX extends Application {
                     this.obstaculos();
                     break;
                 case D:
-                    Group cristo;
-                    cristo = new Group();
-                    Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
-                    cristo1.setFill(Color.BEIGE);
-                    cristo.getChildren().add(cristo1);
-                    Rectangle cristo2 = new Rectangle(640, 360, 20, 6);
-                    cristo2.setFill(Color.BEIGE);
-                    cristo.getChildren().add(cristo2);
-                    Rectangle cristo3 = new Rectangle(640, 350, 6, 30);
-                    cristo3.setFill(Color.BEIGE);
-                    cristo.getChildren().add(cristo3);
-                    Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
-                    cristo4.setFill(Color.BEIGE);
-                    cristo.getChildren().add(cristo4);
-                    cristoX+=velocidad;
-                    cristo.setLayoutX(cristoX);
-                    cristo.setLayoutY(cristoY);
-                    cristo.setScaleX(0.8);
-                    cristo.setScaleY(0.8);
-                    root.getChildren().add(cristo);
+                    cristo();
+                    cristoX+=6;
+                    break;
+                case SPACE:
+                   reinicio();
                     break;
             }         
         });
@@ -306,25 +291,17 @@ public class VoxAndGoblinsFX extends Application {
                 if (posicion2==0) {
                     posicion1=1280;
                 }                          
-            toreroY+=velocidadTorero;
-            torerogif.setY(toreroY);
-            //Límites para la posición del torero
-            if (toreroY >= 380) {
-                velocidadTorero = 0;
-            }
-            if (toreroY <= 150) {
-                velocidadTorero = downSpeed;
-            }
-        };                   
+                toreroY+=velocidadTorero;
+                torerogif.setY(toreroY);
+                //Límites para la posición del torero
+                if (toreroY >= 380) {
+                    velocidadTorero = 0;
+                }
+                if (toreroY <= 150) {
+                    velocidadTorero = downSpeed;
+                }
+            };                   
         };
         movimiento.start(); 
-        
-        //Método de los obstáculos
-//        AnimationTimer obstaculos = new AnimationTimer () {
-//            @Override
-//            public void handle (long now) {
-//                
-//            }
-//        };
     }
 };
