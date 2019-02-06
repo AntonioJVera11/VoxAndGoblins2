@@ -40,6 +40,7 @@ public class VoxAndGoblinsFX extends Application {
     int toreroX = 45;
     int downSpeed = 4;
     int upSpeed = -20;
+    int cristoSpeed = 6;
     int echeniqueX = 1500;
     int echeniqueY = 475;
     int banderaY = 350;
@@ -50,8 +51,8 @@ public class VoxAndGoblinsFX extends Application {
     int scoreSize;
     Image image;
     Image torero;
-    Image echenique;
-    Image bandera;
+    Image imgEchenique;
+    Image imgBandera;
     Image toreroAgachado;
     Image intro;
     ImageView imageView1;
@@ -59,30 +60,11 @@ public class VoxAndGoblinsFX extends Application {
     ImageView torerogif;
     ImageView obstaculo = new ImageView();
     ImageView toreroAgachado1;
-    ImageView echeniquegif;
-    ImageView banderagif;
+//    ImageView echeniquegif;
+//    ImageView banderagif;
     ImageView intro1;
     Scene scene;
     
-    //Método para Echenique
-    public void echeniqueGif () {
-        echenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
-        echeniquegif = new ImageView();
-        echeniquegif.setImage(echenique);
-        echeniquegif.setX(echeniqueX);
-        echeniquegif.setY(echeniqueY);
-        root.getChildren().add(echeniquegif);
-    }
-    
-    //Método para la bandera
-    public void banderaGif () {
-        bandera = new Image(getClass().getResourceAsStream("images/republica.gif"));
-        banderagif = new ImageView();
-        banderagif.setImage(bandera);
-        banderagif.setX(banderaX);
-        banderagif.setY(banderaY);
-        root.getChildren().add(banderagif);
-    }
    
     //Switch case de los obstáculos
     public void obstRandom () {
@@ -90,29 +72,32 @@ public class VoxAndGoblinsFX extends Application {
       aleatorio = random.nextInt(2);
       switch (aleatorio) {
         case 0:
-            obstaculo.setImage(echenique);
+            obstaculo.setImage(imgEchenique);
             obstaculo.setX(echeniqueX);
             obstaculo.setY(475);
+            root.getChildren().add(obstaculo);
             break;
         case 1:
-            obstaculo.setImage(bandera);
+            obstaculo.setImage(imgBandera);
             obstaculo.setX(banderaX);
             obstaculo.setY(350);
+            root.getChildren().add(obstaculo);
             break;
         }
     }
     
     //Método para los obstáculos
     public void obstaculos () {
-
+        
       AnimationTimer obstaculos = new AnimationTimer () {
       @Override
       public void handle(long now) {
-          echeniquegif.setY(echeniqueY);
-          banderagif.setY(banderaY);
-          echeniqueX+= velocidad;
+          obstaculo.setY(echeniqueY);
+          obstaculo.setY(banderaY);
+          echeniqueX += velocidad;
+          System.out.println("echeniqueX: " + echeniqueX);
+          System.out.println("velocidad: " + velocidad);
           banderaX += velocidad;
-          obstRandom();
           if (echeniqueX <= 0) {
               echeniqueX = 1500;
           }
@@ -123,7 +108,7 @@ public class VoxAndGoblinsFX extends Application {
       };
       obstaculos.start();
     }
-    
+       
     //Método de la imagen SCORE
     public void scoreImg () {
         Image imageScore;
@@ -146,8 +131,6 @@ public class VoxAndGoblinsFX extends Application {
         toreroX = 45;
         imageView1.setX(posicion1);
         imageView2.setX(posicion2);
-        obstaculos();
-        obstRandom();
         intro();   
     } 
     
@@ -208,26 +191,28 @@ public class VoxAndGoblinsFX extends Application {
         Group cristo;
         cristo = new Group();
         Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
-        cristo1.setFill(Color.BROWN);
+        cristo1.setFill(Color.BEIGE);
         cristo.getChildren().add(cristo1);
         Rectangle cristo2 = new Rectangle(640, 360, 20, 6);
-        cristo2.setFill(Color.BROWN);
+        cristo2.setFill(Color.BEIGE);
         cristo.getChildren().add(cristo2);
         Rectangle cristo3 = new Rectangle(640, 350, 6, 30);
-        cristo3.setFill(Color.BROWN);
+        cristo3.setFill(Color.BEIGE);
         cristo.getChildren().add(cristo3);
         Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
-        cristo4.setFill(Color.BROWN);
+        cristo4.setFill(Color.BEIGE);
         cristo.getChildren().add(cristo4);
         int cristoX = -480;
         int cristoY = 160;
         cristo.setLayoutX(cristoX);
         cristo.setLayoutY(cristoY);
-        root.getChildren().add(cristo);        
+        root.getChildren().add(cristo);       
     }
     
     @Override
     public void start(Stage primaryStage) {
+        imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
+        imgBandera = new Image(getClass().getResourceAsStream("images/republica.gif"));
         root = new Pane();
         primaryStage.setTitle("Vox and Goblins");
         scene = new Scene(root, 1280, 720);
@@ -237,10 +222,7 @@ public class VoxAndGoblinsFX extends Application {
         this.torero();
         this.toreroAbajo();
         toreroAgachado1.setVisible(false);
-        this.echeniqueGif();
-        echeniquegif.setVisible(false);
-        this.banderaGif();
-        banderagif.setVisible(false);
+        this.obstaculos();
         this.scoreImg();
         this.intro();
         //Declaración del comportamiento de las teclas
@@ -258,11 +240,10 @@ public class VoxAndGoblinsFX extends Application {
                 case ENTER:
                     intro1.setVisible(false);
                     velocidad = -4;
-                    this.obstaculos();
                     break;
                 case D:
                     cristo();
-                    cristoX+=6;
+                    cristoX+=cristoSpeed;
                     break;
                 case SPACE:
                    reinicio();
@@ -271,11 +252,11 @@ public class VoxAndGoblinsFX extends Application {
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
             torerogif.setVisible(true);
-            echeniquegif.setVisible(true);
-            banderagif.setVisible(true);
+            obstaculo.setVisible(true);
             toreroAgachado1.setVisible(false);
             intro1.setVisible(false);
             velocidadTorero = downSpeed;
+            
         });
         //Método del scroll del fondo
         AnimationTimer movimiento = new AnimationTimer () {
