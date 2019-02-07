@@ -38,8 +38,8 @@ public class VoxAndGoblinsFX extends Application {
     int velocidad = 0;
     int toreroY = 380;
     int toreroX = 45;
-    int downSpeed = 4;
-    int upSpeed = -20;
+    int downSpeed = 5;
+    int upSpeed = -15;
     int cristoSpeed = 6;
     int echeniqueX = 1500;
     int echeniqueY = 475;
@@ -60,28 +60,41 @@ public class VoxAndGoblinsFX extends Application {
     ImageView torerogif;
     ImageView obstaculo = new ImageView();
     ImageView toreroAgachado1;
-//    ImageView echeniquegif;
-//    ImageView banderagif;
+    ImageView echeniquegif;
+    ImageView banderagif;
     ImageView intro1;
     Scene scene;
     
-   
+    //Obstaculo1
+    public void obst1 () {
+        imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
+        echeniquegif = new ImageView();
+        echeniquegif.setImage(imgEchenique);
+        echeniquegif.setX(echeniqueX);
+        echeniquegif.setY(echeniqueY);
+        root.getChildren().add(echeniquegif);
+    }
+    
+    //Obstaculo2
+    public void obst2 () {
+        imgBandera = new Image(getClass().getResourceAsStream("images/republica.gif"));
+        banderagif = new ImageView();
+        banderagif.setImage(imgBandera);
+        banderagif.setX(banderaX);
+        banderagif.setY(banderaY);
+        root.getChildren().add(banderagif);
+    }
+    
     //Switch case de los obstáculos
     public void obstRandom () {
       Random random = new Random();
       aleatorio = random.nextInt(2);
       switch (aleatorio) {
         case 0:
-            obstaculo.setImage(imgEchenique);
-            obstaculo.setX(echeniqueX);
-            obstaculo.setY(475);
-            root.getChildren().add(obstaculo);
+            obst1();
             break;
         case 1:
-            obstaculo.setImage(imgBandera);
-            obstaculo.setX(banderaX);
-            obstaculo.setY(350);
-            root.getChildren().add(obstaculo);
+            obst2();
             break;
         }
     }
@@ -92,9 +105,12 @@ public class VoxAndGoblinsFX extends Application {
       AnimationTimer obstaculos = new AnimationTimer () {
       @Override
       public void handle(long now) {
-          obstaculo.setY(echeniqueY);
-          obstaculo.setY(banderaY);
           echeniqueX += velocidad;
+          banderaX += velocidad;
+          echeniquegif.setX(echeniqueX);
+          banderagif.setX(banderaX);
+          echeniquegif.setY(echeniqueY);
+          banderagif.setY(banderaY);
           System.out.println("echeniqueX: " + echeniqueX);
           System.out.println("velocidad: " + velocidad);
           banderaX += velocidad;
@@ -222,9 +238,13 @@ public class VoxAndGoblinsFX extends Application {
         this.torero();
         this.toreroAbajo();
         toreroAgachado1.setVisible(false);
+        this.obstRandom();
         this.obstaculos();
+        this.obst1();
+        this.obst2();
         this.scoreImg();
         this.intro();
+        
         //Declaración del comportamiento de las teclas
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
@@ -244,6 +264,7 @@ public class VoxAndGoblinsFX extends Application {
                 case D:
                     cristo();
                     cristoX+=cristoSpeed;
+                    cristo.setLayoutX(cristoX);
                     break;
                 case SPACE:
                    reinicio();
@@ -252,7 +273,8 @@ public class VoxAndGoblinsFX extends Application {
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
             torerogif.setVisible(true);
-            obstaculo.setVisible(true);
+            echeniquegif.setVisible(true);
+            banderagif.setVisible(true);
             toreroAgachado1.setVisible(false);
             intro1.setVisible(false);
             velocidadTorero = downSpeed;
@@ -278,11 +300,11 @@ public class VoxAndGoblinsFX extends Application {
                 if (toreroY >= 380) {
                     velocidadTorero = 0;
                 }
-                if (toreroY <= 150) {
+                if (toreroY <= 100) {
                     velocidadTorero = downSpeed;
                 }
             };                   
         };
-        movimiento.start(); 
-    }
+            movimiento.start(); 
+    }       
 };
