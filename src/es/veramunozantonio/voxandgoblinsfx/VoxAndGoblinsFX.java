@@ -264,7 +264,7 @@ public class VoxAndGoblinsFX extends Application {
                 case D:
                     cristo();
                     cristoX+=cristoSpeed;
-                    cristo.setLayoutX(cristoX);
+//                    cristo.setLayoutX(cristoX);
                     break;
                 case SPACE:
                    reinicio();
