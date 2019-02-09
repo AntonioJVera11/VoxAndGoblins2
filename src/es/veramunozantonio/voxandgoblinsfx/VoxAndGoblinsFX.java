@@ -1,5 +1,7 @@
 /*
 Este gran videojuego pertenece a Antonio Juan Vera Muñoz
+No comparto la ideología mostrada en el videojuego, se trata de una parodia
+que hay que entender desde el punto de vista del humor.
 Copyright 2019 Antonio Juan Vera Muñoz
  */
 package es.veramunozantonio.voxandgoblinsfx;
@@ -43,16 +45,18 @@ public class VoxAndGoblinsFX extends Application {
     int cristoSpeed = 6;
     int echeniqueX = 1500;
     int echeniqueY = 475;
-    int banderaY = 350;
-    int banderaX = 2500;
+    int feminaziY = 250;
+    int feminaziX = 2500;
     int cristoX = -480;
     int cristoY = 160;
     int aleatorio;
     int scoreSize;
+    int rotacionCristo = 10;
+    Group cristo;
     Image image;
     Image torero;
     Image imgEchenique;
-    Image imgBandera;
+    Image imgFeminazi;
     Image toreroAgachado;
     Image intro;
     ImageView imageView1;
@@ -61,7 +65,7 @@ public class VoxAndGoblinsFX extends Application {
     ImageView obstaculo = new ImageView();
     ImageView toreroAgachado1;
     ImageView echeniquegif;
-    ImageView banderagif;
+    ImageView feminazi;
     ImageView intro1;
     Scene scene;
     
@@ -77,12 +81,15 @@ public class VoxAndGoblinsFX extends Application {
     
     //Obstaculo2
     public void obst2 () {
-        imgBandera = new Image(getClass().getResourceAsStream("images/republica.gif"));
-        banderagif = new ImageView();
-        banderagif.setImage(imgBandera);
-        banderagif.setX(banderaX);
-        banderagif.setY(banderaY);
-        root.getChildren().add(banderagif);
+        imgFeminazi = new Image(getClass().getResourceAsStream("images/Feminazi.png"));
+        feminazi = new ImageView();
+        feminazi.setImage(imgFeminazi);
+        feminazi.setScaleX(0.3);
+        feminazi.setScaleY(0.3);
+        feminazi.setRotate(270);
+        feminazi.setX(feminaziX);
+        feminazi.setY(feminaziY);
+        root.getChildren().add(feminazi);
     }
     
     //Switch case de los obstáculos
@@ -101,24 +108,22 @@ public class VoxAndGoblinsFX extends Application {
     
     //Método para los obstáculos
     public void obstaculos () {
-        
+      //Con esta función haremos que los obstaculos vayan apareciendo en pantalla  
       AnimationTimer obstaculos = new AnimationTimer () {
       @Override
       public void handle(long now) {
           echeniqueX += velocidad;
-          banderaX += velocidad;
+          feminaziX += velocidad;
           echeniquegif.setX(echeniqueX);
-          banderagif.setX(banderaX);
+          feminazi.setX(feminaziX);
           echeniquegif.setY(echeniqueY);
-          banderagif.setY(banderaY);
-          System.out.println("echeniqueX: " + echeniqueX);
-          System.out.println("velocidad: " + velocidad);
-          banderaX += velocidad;
+          feminazi.setY(feminaziY);
+          feminaziX += velocidad;
           if (echeniqueX <= 0) {
               echeniqueX = 1500;
           }
-          if (banderaX <= 0) {
-            banderaX = 2500;
+          if (feminaziX <= 0) {
+            feminaziX = 2500;
           }
       }
       };
@@ -204,31 +209,43 @@ public class VoxAndGoblinsFX extends Application {
     
     //Método del grupo cristo
     public void cristo () {
-        Group cristo;
+        //Primero creamos la imagen a partir de un grupo llamado cristo
         cristo = new Group();
         Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
-        cristo1.setFill(Color.BEIGE);
+        cristo1.setFill(Color.BROWN);
         cristo.getChildren().add(cristo1);
         Rectangle cristo2 = new Rectangle(640, 360, 20, 6);
-        cristo2.setFill(Color.BEIGE);
+        cristo2.setFill(Color.BROWN);
         cristo.getChildren().add(cristo2);
         Rectangle cristo3 = new Rectangle(640, 350, 6, 30);
-        cristo3.setFill(Color.BEIGE);
+        cristo3.setFill(Color.BROWN);
         cristo.getChildren().add(cristo3);
         Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
-        cristo4.setFill(Color.BEIGE);
+        cristo4.setFill(Color.BROWN);
         cristo.getChildren().add(cristo4);
-        int cristoX = -480;
-        int cristoY = 160;
         cristo.setLayoutX(cristoX);
         cristo.setLayoutY(cristoY);
-        root.getChildren().add(cristo);       
+        root.getChildren().add(cristo);
+        //Con esta función haremos que el cristo se mueva por la pantalla
+        AnimationTimer cruz = new AnimationTimer () {
+            @Override
+            public void handle(long now) {
+                cristoX += cristoSpeed;
+                rotacionCristo += 2;
+                cristo.setRotate(rotacionCristo);
+                cristo.setLayoutX(cristoX);
+                if (cristoX >= 1300) {
+                    cristoSpeed = 6;
+                    cristoX = -480;
+                    cristo.setVisible(false);
+                }               
+            }
+            };
+            cruz.start();
     }
     
     @Override
     public void start(Stage primaryStage) {
-        imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
-        imgBandera = new Image(getClass().getResourceAsStream("images/republica.gif"));
         root = new Pane();
         primaryStage.setTitle("Vox and Goblins");
         scene = new Scene(root, 1280, 720);
@@ -263,8 +280,8 @@ public class VoxAndGoblinsFX extends Application {
                     break;
                 case D:
                     cristo();
-                    cristoX+=cristoSpeed;
-//                    cristo.setLayoutX(cristoX);
+                    cristoSpeed = 6;
+                    cristo.setVisible(true);
                     break;
                 case SPACE:
                    reinicio();
@@ -274,11 +291,10 @@ public class VoxAndGoblinsFX extends Application {
         scene.setOnKeyReleased((KeyEvent event) -> {
             torerogif.setVisible(true);
             echeniquegif.setVisible(true);
-            banderagif.setVisible(true);
+            feminazi.setVisible(true);
             toreroAgachado1.setVisible(false);
             intro1.setVisible(false);
-            velocidadTorero = downSpeed;
-            
+            velocidadTorero = downSpeed;         
         });
         //Método del scroll del fondo
         AnimationTimer movimiento = new AnimationTimer () {
