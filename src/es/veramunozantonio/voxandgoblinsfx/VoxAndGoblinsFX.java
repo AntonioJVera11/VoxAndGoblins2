@@ -48,11 +48,12 @@ public class VoxAndGoblinsFX extends Application {
     int feminaziY = 250;
     int feminaziX = 2500;
     int cristoX = -480;
-    int cristoY = 160;
+    int cristoY = 20;
     int aleatorio;
     int scoreSize;
     int rotacionCristo = 10;
     Group cristo;
+    Group echeniqueGroup;
     Image image;
     Image torero;
     Image imgEchenique;
@@ -70,13 +71,18 @@ public class VoxAndGoblinsFX extends Application {
     Scene scene;
     
     //Obstaculo1
-    public void obst1 () {
+    public void obst1 () {       
+        echeniqueGroup = new Group();
+        Rectangle echeniqueHB = new Rectangle(echeniqueX, echeniqueY, 120, 158);
+        echeniqueHB.setFill(Color.BLACK);
+        echeniqueGroup.getChildren().add(echeniqueHB);
         imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
         echeniquegif = new ImageView();
         echeniquegif.setImage(imgEchenique);
         echeniquegif.setX(echeniqueX);
         echeniquegif.setY(echeniqueY);
-        root.getChildren().add(echeniquegif);
+        echeniqueGroup.getChildren().add(echeniquegif);
+        root.getChildren().add(echeniqueGroup);
     }
     
     //Obstaculo2
@@ -114,7 +120,8 @@ public class VoxAndGoblinsFX extends Application {
       public void handle(long now) {
           echeniqueX += velocidad;
           feminaziX += velocidad;
-          echeniquegif.setX(echeniqueX);
+          echeniqueGroup.setLayoutX(echeniqueX);
+          System.out.println("La X de echenique:" + echeniqueX);
           feminazi.setX(feminaziX);
           echeniquegif.setY(echeniqueY);
           feminazi.setY(feminaziY);
@@ -194,7 +201,7 @@ public class VoxAndGoblinsFX extends Application {
     }
     
     //Método del toreroAbajo
-    public void toreroAbajo () {
+    /*public void toreroAbajo () {
         toreroAgachado = new Image(getClass().getResourceAsStream("images/Agachado.png"));
         toreroAgachado1 = new ImageView();
         int agachadoX = -50;
@@ -205,7 +212,7 @@ public class VoxAndGoblinsFX extends Application {
         toreroAgachado1.setScaleX(0.4);
         toreroAgachado1.setScaleY(0.4);
         root.getChildren().add(toreroAgachado1);
-    }
+    }*/
     
     //Método del grupo cristo
     public void cristo () {
@@ -235,9 +242,10 @@ public class VoxAndGoblinsFX extends Application {
                 cristo.setRotate(rotacionCristo);
                 cristo.setLayoutX(cristoX);
                 if (cristoX >= 1300) {
-                    cristoSpeed = 6;
-                    cristoX = -480;
-                    cristo.setVisible(false);
+//                    cristoSpeed = 6;
+//                    cristoX = -480;
+//                    System.out.println("cristoX:" + cristoX);
+                    root.getChildren().remove(cristo);
                 }               
             }
             };
@@ -253,8 +261,8 @@ public class VoxAndGoblinsFX extends Application {
         primaryStage.show();
         this.fondo();
         this.torero();
-        this.toreroAbajo();
-        toreroAgachado1.setVisible(false);
+//        this.toreroAbajo();
+//        toreroAgachado1.setVisible(false);
         this.obstRandom();
         this.obstaculos();
         this.obst1();
@@ -270,10 +278,10 @@ public class VoxAndGoblinsFX extends Application {
                    velocidadTorero = upSpeed;
                    }
                     break;
-                case S:
-                   torerogif.setVisible(false);
-                   toreroAgachado1.setVisible(true);
-                    break;
+//                case S:
+//                   torerogif.setVisible(false);
+//                   toreroAgachado1.setVisible(true);
+//                    break;
                 case ENTER:
                     intro1.setVisible(false);
                     velocidad = -4;
@@ -292,9 +300,10 @@ public class VoxAndGoblinsFX extends Application {
             torerogif.setVisible(true);
             echeniquegif.setVisible(true);
             feminazi.setVisible(true);
-            toreroAgachado1.setVisible(false);
+//            toreroAgachado1.setVisible(false);
             intro1.setVisible(false);
-            velocidadTorero = downSpeed;         
+            velocidadTorero = downSpeed;  
+            cristoSpeed = 6;
         });
         //Método del scroll del fondo
         AnimationTimer movimiento = new AnimationTimer () {
