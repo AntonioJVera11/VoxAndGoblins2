@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -55,6 +56,7 @@ public class VoxAndGoblinsFX extends Application {
     Group cristo;
     Group echeniqueGroup;
     Group feminaziGroup;
+    Group toreroGroup;
     Image image;
     Image torero;
     Image imgEchenique;
@@ -75,7 +77,7 @@ public class VoxAndGoblinsFX extends Application {
     public void obst1 () {       
         echeniqueGroup = new Group();
         Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
-        echeniqueHB.setFill(Color.BLACK);
+        echeniqueHB.setFill(Color.TRANSPARENT);
         echeniqueGroup.getChildren().add(echeniqueHB);
         imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
         echeniquegif = new ImageView();
@@ -90,7 +92,7 @@ public class VoxAndGoblinsFX extends Application {
     public void obst2 () {
         feminaziGroup = new Group();
         Rectangle feminaziHB = new Rectangle (feminaziX + 100, feminaziY + 125, 100, 50);
-        feminaziHB.setFill(Color.BLACK);
+        feminaziHB.setFill(Color.TRANSPARENT);
         feminaziGroup.getChildren().add(feminaziHB);
         imgFeminazi = new Image(getClass().getResourceAsStream("images/Feminazi.png"));
         feminazi = new ImageView();
@@ -165,7 +167,10 @@ public class VoxAndGoblinsFX extends Application {
         toreroX = 45;
         imageView1.setX(posicion1);
         imageView2.setX(posicion2);
-        intro();   
+        echeniquegif.setX(echeniqueX);
+        echeniquegif.setY(echeniqueY);
+        feminazi.setX(feminaziX);
+        feminazi.setY(feminaziY);
     } 
     
     //Método del fondo
@@ -198,12 +203,17 @@ public class VoxAndGoblinsFX extends Application {
     
     //Método del gif del torero
     public void torero () {
+        toreroGroup = new Group();
+        Rectangle toreroHB = new Rectangle (toreroX + 50, toreroY + 15, 150, 225);
+        toreroHB.setFill(Color.BLACK);
+        toreroGroup.getChildren().add(toreroHB);
         torero = new Image(getClass().getResourceAsStream("images/Ole.gif"));
         torerogif = new ImageView();
         torerogif.setImage(torero);
         torerogif.setX(toreroX);
         torerogif.setY(toreroY);
-        root.getChildren().add(torerogif);
+        toreroGroup.getChildren().add(torerogif);
+        root.getChildren().add(toreroGroup);
     }
     
     //Método del toreroAbajo
@@ -280,7 +290,7 @@ public class VoxAndGoblinsFX extends Application {
             switch(event.getCode()) {
                 case W:
                    if (velocidadTorero == 0) {
-                   velocidadTorero = upSpeed;
+                   toreroGroup.setLayoutY(upSpeed);
                    }
                     break;
 //                case S:
@@ -336,5 +346,15 @@ public class VoxAndGoblinsFX extends Application {
             };                   
         };
             movimiento.start(); 
+        
+//        AnimationTimer colisiones = new AnimationTimer () {
+//            @Override
+//            public void handle (long now) { 
+//              //--------------------------Colision Torero echenique------------------------------------------------------
+//              Shape shapeColision = Shape.intersect(torerogif , echenique);
+//              boolean colisionShapeA = shapeColision.getBoundsInLocal().isEmpty();
+//              if(colisionShapeA == false){
+//        };
+        
     }       
 };
