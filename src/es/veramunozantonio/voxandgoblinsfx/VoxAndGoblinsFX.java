@@ -1,7 +1,7 @@
 /*
 Este gran videojuego pertenece a Antonio Juan Vera Muñoz
 No comparto la ideología mostrada en el videojuego, se trata de una parodia
-que hay que entender desde el punto de vista del humor.
+que hay que abordar desde el punto de vista del humor.
 Copyright 2019 Antonio Juan Vera Muñoz
  */
 package es.veramunozantonio.voxandgoblinsfx;
@@ -46,7 +46,7 @@ public class VoxAndGoblinsFX extends Application {
     int echeniqueX = 1500;
     int echeniqueY = 475;
     int feminaziY = 250;
-    int feminaziX = 2500;
+    int feminaziX = echeniqueX + 500;
     int cristoX = -480;
     int cristoY = 20;
     int aleatorio;
@@ -54,6 +54,7 @@ public class VoxAndGoblinsFX extends Application {
     int rotacionCristo = 10;
     Group cristo;
     Group echeniqueGroup;
+    Group feminaziGroup;
     Image image;
     Image torero;
     Image imgEchenique;
@@ -73,7 +74,7 @@ public class VoxAndGoblinsFX extends Application {
     //Obstaculo1
     public void obst1 () {       
         echeniqueGroup = new Group();
-        Rectangle echeniqueHB = new Rectangle(echeniqueX, echeniqueY, 120, 158);
+        Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
         echeniqueHB.setFill(Color.BLACK);
         echeniqueGroup.getChildren().add(echeniqueHB);
         imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
@@ -87,6 +88,10 @@ public class VoxAndGoblinsFX extends Application {
     
     //Obstaculo2
     public void obst2 () {
+        feminaziGroup = new Group();
+        Rectangle feminaziHB = new Rectangle (feminaziX + 100, feminaziY + 125, 100, 50);
+        feminaziHB.setFill(Color.BLACK);
+        feminaziGroup.getChildren().add(feminaziHB);
         imgFeminazi = new Image(getClass().getResourceAsStream("images/Feminazi.png"));
         feminazi = new ImageView();
         feminazi.setImage(imgFeminazi);
@@ -95,7 +100,8 @@ public class VoxAndGoblinsFX extends Application {
         feminazi.setRotate(270);
         feminazi.setX(feminaziX);
         feminazi.setY(feminaziY);
-        root.getChildren().add(feminazi);
+        feminaziGroup.getChildren().add(feminazi);
+        root.getChildren().add(feminaziGroup);
     }
     
     //Switch case de los obstáculos
@@ -118,19 +124,19 @@ public class VoxAndGoblinsFX extends Application {
       AnimationTimer obstaculos = new AnimationTimer () {
       @Override
       public void handle(long now) {
-          echeniqueX += velocidad;
-          feminaziX += velocidad;
           echeniqueGroup.setLayoutX(echeniqueX);
           System.out.println("La X de echenique:" + echeniqueX);
-          feminazi.setX(feminaziX);
           echeniquegif.setY(echeniqueY);
+          echeniqueX += velocidad;
+          feminaziGroup.setLayoutX(feminaziX);
+          System.out.println("La X de feminazi:" + feminaziX);
           feminazi.setY(feminaziY);
           feminaziX += velocidad;
-          if (echeniqueX <= 0) {
+          if (echeniqueX <= -1700) {
               echeniqueX = 1500;
           }
-          if (feminaziX <= 0) {
-            feminaziX = 2500;
+          if (feminaziX <= -2000) {
+            feminaziX = 1500;
           }
       }
       };
@@ -242,10 +248,9 @@ public class VoxAndGoblinsFX extends Application {
                 cristo.setRotate(rotacionCristo);
                 cristo.setLayoutX(cristoX);
                 if (cristoX >= 1300) {
-//                    cristoSpeed = 6;
-//                    cristoX = -480;
-//                    System.out.println("cristoX:" + cristoX);
-                    root.getChildren().remove(cristo);
+                    cristoSpeed = 0;
+                    cristoX = -1000;
+                    cristo.setVisible(false);
                 }               
             }
             };
