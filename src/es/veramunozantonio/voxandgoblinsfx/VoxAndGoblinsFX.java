@@ -39,7 +39,7 @@ public class VoxAndGoblinsFX extends Application {
     int posicion1 = 0;
     int posicion2 = 1280;
     int velocidad = 0;
-    int toreroY = 380;
+    int toreroY = 0;
     int toreroX = 45;
     int downSpeed = 5;
     int upSpeed = -15;
@@ -74,6 +74,151 @@ public class VoxAndGoblinsFX extends Application {
     ImageView intro1;
     Scene scene;
     
+    // Caracteres del juego
+    public void caracteres () {
+        //Este es el primer caracter: Echenique
+        // Creamos el grupo para Echenique y su hitbox
+        echeniqueGroup = new Group();
+        // Cremos el rectángulo que atuará como hitbox y le damos posición tamaño y color
+        Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
+        echeniqueHB.setFill(Color.TRANSPARENT);
+        // Lo añadimos al grupo 
+        echeniqueGroup.getChildren().add(echeniqueHB);
+        // Añadimos la imagen de Echenique
+        imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
+        // La convertimos a ImageView
+        echeniquegif = new ImageView();
+        echeniquegif.setImage(imgEchenique);
+        // Le damos unas coordenadas
+        echeniquegif.setX(echeniqueX);
+        echeniquegif.setY(echeniqueY);
+        // La añadimos al grupo
+        echeniqueGroup.getChildren().add(echeniquegif);
+        // Añadimos el grupo compleo al panel 
+        root.getChildren().add(echeniqueGroup);
+        
+        //---------------------------------------------------
+        
+        // Este es el segundo caracter: Feminazi
+        // Creamos el grupo para el obstáculo del símbolo Feminazi
+        feminaziGroup = new Group();
+        // Creamos el rectángulo que actuará como hitbox y le damos posición, tamaño y color
+        Rectangle feminaziHB = new Rectangle (feminaziX, feminaziY, 200, 200);
+        feminaziHB.setFill(Color.BLACK);
+        // Lo añadimos al gurpo
+        feminaziGroup.getChildren().add(feminaziHB);
+        // Añadimos la imagen Feminazi
+        imgFeminazi = new Image(getClass().getResourceAsStream("images/Feminazi.png"));
+        // La convertimos a ImageView
+        feminazi = new ImageView();
+        feminazi.setImage(imgFeminazi);
+        // Le damos una escala, rotación y posición
+        feminazi.setScaleX(0.3);
+        feminazi.setScaleY(0.3);
+        feminazi.setRotate(270);
+        feminazi.setX(feminaziX);
+        feminazi.setY(feminaziY);
+        // La añadimos al grupo
+        feminaziGroup.getChildren().add(feminazi);
+        // Y añadimos el grupo al panel
+        root.getChildren().add(feminaziGroup);
+        
+        //--------------------------------------------------------
+        
+        // Este es el tercer caracter
+        // Creamos el grupo del torero y su correspondiente hitbox
+        toreroGroup = new Group();
+        // Creamos el rectángulo que actuará como hitbox con sus coordenadas, dimensiones y color
+        Rectangle toreroHB = new Rectangle (toreroX + 60, toreroY + 15, 125, 160);
+        toreroHB.setFill(Color.TRANSPARENT);
+        // Lo añadimos al grupo
+        toreroGroup.getChildren().add(toreroHB);
+        // Añadimos la imgaen y la convertimos a ImageView para trabajar con ella
+        torero = new Image(getClass().getResourceAsStream("images/Ole.gif"));
+        torerogif = new ImageView();
+        torerogif.setImage(torero);
+        // Le damos unas coordenadas que determinarán su posición
+        torerogif.setX(toreroX);
+        torerogif.setY(toreroY);
+        // La añadimos al grupo
+        toreroGroup.getChildren().add(torerogif);
+        // Añadimos el grupo al panel 
+        root.getChildren().add(toreroGroup);  
+        
+        //----------------------------------------------------------
+        
+        //Este es el cuarto caracter
+        //Primero creamos la imagen a partir de un grupo llamado cristo
+        cristo = new Group();
+        // Creamos los 4 rectángulos que formarán el grupo y los añadimos al mismo
+        Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
+        cristo1.setFill(Color.BROWN);
+        cristo.getChildren().add(cristo1);
+        Rectangle cristo2 = new Rectangle(640, 360, 20, 6);
+        cristo2.setFill(Color.BROWN);
+        cristo.getChildren().add(cristo2);
+        Rectangle cristo3 = new Rectangle(640, 350, 6, 30);
+        cristo3.setFill(Color.BROWN);
+        cristo.getChildren().add(cristo3);
+        Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
+        cristo4.setFill(Color.BROWN);
+        cristo.getChildren().add(cristo4);
+        // Le damos unas coordenadas que determinarán su posición inicial
+        cristo.setLayoutX(cristoX);
+        cristo.setLayoutY(cristoY);
+        
+        // Ahora vamos a crear las colisiones con los obstaculos
+    AnimationTimer animationObstaculos = new AnimationTimer() {
+        @Override
+            public void handle(long now) {
+                // Colisión entre Echenique y el Torero, queremos que el juego se reinicie
+                Shape shapeColision1 = Shape.intersect(echeniqueHB, toreroHB);
+                boolean colisionVacia = shapeColision1.getBoundsInLocal().isEmpty();
+                if(colisionVacia == false) {
+//                    toreroY = 380;
+//                    toreroX = 45;
+//                    imageView1.setX(posicion1);
+//                    imageView2.setX(posicion2);
+//                    echeniquegif.setX(echeniqueX);
+//                    echeniquegif.setY(echeniqueY);
+//                    feminazi.setX(2000);
+//                    feminazi.setY(250);
+                    marcador = 0;              
+                }
+//                
+//                // Colision entre Torero y Feminazi, queremos que el juego se reinice
+                Shape shapeColision2 = Shape.intersect(toreroHB, feminaziHB);
+                boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
+                if(colisionVacia2 == false) {
+//                    toreroY = 380;
+//                    toreroX = 45;
+//                    imageView1.setX(posicion1);
+//                    imageView2.setX(posicion2);
+//                    echeniquegif.setX(echeniqueX);
+//                    echeniquegif.setY(echeniqueY);
+//                    feminazi.setX(2000);
+//                    feminazi.setY(250);
+                    marcador = 0; 
+                }
+                  // Colision entre Cristo y Feminazi, queremos que el juego se reinice
+                Shape shapeColision3 = Shape.intersect(cristo1, feminaziHB);
+                boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
+                if(colisionVacia3 == false) {
+//                    toreroY = 380;
+//                    toreroX = 45;
+//                    imageView1.setX(posicion1);
+//                    imageView2.setX(posicion2);
+//                    echeniquegif.setX(echeniqueX);
+//                    echeniquegif.setY(echeniqueY);
+//                    feminazi.setX(2000);
+//                    feminazi.setY(250);
+                    cristo.setVisible(false);  
+                    feminaziGroup.setVisible(false);
+                }
+            };
+       };
+                animationObstaculos.start();
+    };
     //Obstaculo1
     public void obst1 () {
         // Creamos el grupo para Echenique y su hitbox
@@ -194,8 +339,9 @@ public class VoxAndGoblinsFX extends Application {
         imageView2.setX(posicion2);
         echeniquegif.setX(echeniqueX);
         echeniquegif.setY(echeniqueY);
-        feminazi.setX(feminaziX);
-        feminazi.setY(feminaziY);
+        feminazi.setX(2000);
+        feminazi.setY(250);
+        marcador = 0;
     } 
     
     //Método del fondo
@@ -237,8 +383,8 @@ public class VoxAndGoblinsFX extends Application {
         // Creamos el grupo del torero y su correspondiente hitbox
         toreroGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox con sus coordenadas, dimensiones y color
-        Rectangle toreroHB = new Rectangle (45 + 50, 380 + 15, 150, 225);
-        toreroHB.setFill(Color.BLACK);
+        Rectangle toreroHB = new Rectangle (toreroX + 60, toreroY + 15, 125, 160);
+        toreroHB.setFill(Color.TRANSPARENT);
         // Lo añadimos al grupo
         toreroGroup.getChildren().add(toreroHB);
         // Añadimos la imgaen y la convertimos a ImageView para trabajar con ella
@@ -320,13 +466,14 @@ public class VoxAndGoblinsFX extends Application {
         primaryStage.show();
         // Invocamos todos los métodos necesarios teniendo en cuenta el orden en el que los colocamos
         this.fondo();
-        this.torero();
+//        this.torero();
 //        this.toreroAbajo();
 //        toreroAgachado1.setVisible(false);
+        this.caracteres();
         this.obstRandom();
         this.obstaculos();
-        this.obst1();
-        this.obst2();
+//        this.obst1();
+//        this.obst2();
         this.scoreImg();
         this.intro();
         
@@ -401,7 +548,7 @@ public class VoxAndGoblinsFX extends Application {
                     posicion1=1280;
                 }                          
                 toreroY+=velocidadTorero;
-                torerogif.setY(toreroY);
+                toreroGroup.setLayoutY(toreroY);
                 //Límites para la posición del torero
                 if (toreroY >= 380) {
                     velocidadTorero = 0;
@@ -413,15 +560,6 @@ public class VoxAndGoblinsFX extends Application {
         };
             movimiento.start(); 
             root.getChildren().add(groupMarcador);
-        
-//        AnimationTimer colisiones = new AnimationTimer () {
-//            @Override
-//            public void handle (long now) { 
-//              //--------------------------Colision Torero echenique------------------------------------------------------
-//              Shape shapeColision = Shape.intersect(torerogif , echenique);
-//              boolean colisionShapeA = shapeColision.getBoundsInLocal().isEmpty();
-//              if(colisionShapeA == false){
-//        };
-        
+         
     }       
 };
