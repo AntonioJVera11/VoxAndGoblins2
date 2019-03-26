@@ -53,6 +53,7 @@ public class VoxAndGoblinsFX extends Application {
     int aleatorio;
     int scoreSize;
     int rotacionCristo = 10;
+    int marcador = -1;
     Group cristo;
     Group echeniqueGroup;
     Group feminaziGroup;
@@ -160,7 +161,7 @@ public class VoxAndGoblinsFX extends Application {
         imageViewScore.setY(scoreY);       
         root.getChildren().add(imageViewScore);
     }
-    
+             
     //Método del reinicio
     public void reinicio () {    
         toreroY = 380;
@@ -204,7 +205,7 @@ public class VoxAndGoblinsFX extends Application {
     //Método del gif del torero
     public void torero () {
         toreroGroup = new Group();
-        Rectangle toreroHB = new Rectangle (toreroX + 50, toreroY + 15, 150, 225);
+        Rectangle toreroHB = new Rectangle (45 + 50, 380 + 15, 150, 225);
         toreroHB.setFill(Color.BLACK);
         toreroGroup.getChildren().add(toreroHB);
         torero = new Image(getClass().getResourceAsStream("images/Ole.gif"));
@@ -285,12 +286,23 @@ public class VoxAndGoblinsFX extends Application {
         this.scoreImg();
         this.intro();
         
+        // Creamos el score dentro del start
+        Text marcadorText = new Text ("0");
+                marcadorText.setFont(Font.font(65));
+                marcadorText.setX(275);
+                marcadorText.setY(65);
+                    marcadorText.setFill(Color.RED);
+        Group groupMarcador = new Group ();
+                groupMarcador.getChildren().addAll(marcadorText);
+                groupMarcador.setVisible(false);
         //Declaración del comportamiento de las teclas
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
                 case W:
                    if (velocidadTorero == 0) {
-                   toreroGroup.setLayoutY(upSpeed);
+                   velocidadTorero = toreroY;
+                   velocidadTorero = upSpeed;
+                   toreroGroup.setLayoutY(velocidadTorero);
                    }
                     break;
 //                case S:
@@ -300,6 +312,8 @@ public class VoxAndGoblinsFX extends Application {
                 case ENTER:
                     intro1.setVisible(false);
                     velocidad = -4;
+                    marcador = 0;
+                    groupMarcador.setVisible(true);
                     break;
                 case D:
                     cristo();
@@ -328,6 +342,8 @@ public class VoxAndGoblinsFX extends Application {
                 imageView2.setX(posicion2);
                 posicion1+=velocidad;
                 posicion2+=velocidad;
+                marcador ++;
+                marcadorText.setText(String.valueOf(marcador));
                 if (posicion1==0) {
                     posicion2=1280;
                 }
@@ -346,6 +362,7 @@ public class VoxAndGoblinsFX extends Application {
             };                   
         };
             movimiento.start(); 
+            root.getChildren().add(groupMarcador);
         
 //        AnimationTimer colisiones = new AnimationTimer () {
 //            @Override
