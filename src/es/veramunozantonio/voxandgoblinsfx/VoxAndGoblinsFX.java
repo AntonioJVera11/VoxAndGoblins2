@@ -81,7 +81,7 @@ public class VoxAndGoblinsFX extends Application {
         echeniqueGroup = new Group();
         // Cremos el rectángulo que atuará como hitbox y le damos posición tamaño y color
         Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
-        echeniqueHB.setFill(Color.TRANSPARENT);
+        echeniqueHB.setFill(Color.BLACK);
         // Lo añadimos al grupo 
         echeniqueGroup.getChildren().add(echeniqueHB);
         // Añadimos la imagen de Echenique
@@ -103,7 +103,7 @@ public class VoxAndGoblinsFX extends Application {
         // Creamos el grupo para el obstáculo del símbolo Feminazi
         feminaziGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox y le damos posición, tamaño y color
-        Rectangle feminaziHB = new Rectangle (feminaziX, feminaziY, 200, 200);
+        Rectangle feminaziHB = new Rectangle (feminaziX + 50, feminaziY + 100, 100, 100);
         feminaziHB.setFill(Color.BLACK);
         // Lo añadimos al gurpo
         feminaziGroup.getChildren().add(feminaziHB);
@@ -130,7 +130,7 @@ public class VoxAndGoblinsFX extends Application {
         toreroGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox con sus coordenadas, dimensiones y color
         Rectangle toreroHB = new Rectangle (toreroX + 60, toreroY + 15, 125, 160);
-        toreroHB.setFill(Color.TRANSPARENT);
+        toreroHB.setFill(Color.BLACK);
         // Lo añadimos al grupo
         toreroGroup.getChildren().add(toreroHB);
         // Añadimos la imgaen y la convertimos a ImageView para trabajar con ella
@@ -201,7 +201,7 @@ public class VoxAndGoblinsFX extends Application {
                     marcador = 0; 
                 }
                   // Colision entre Cristo y Feminazi, queremos que el juego se reinice
-                Shape shapeColision3 = Shape.intersect(cristo1, feminaziHB);
+                Shape shapeColision3 = Shape.intersect(cristo3, feminaziHB);
                 boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
                 if(colisionVacia3 == false) {
 //                    toreroY = 380;
@@ -218,14 +218,15 @@ public class VoxAndGoblinsFX extends Application {
             };
        };
                 animationObstaculos.start();
-    };
+    }
+    
     //Obstaculo1
     public void obst1 () {
         // Creamos el grupo para Echenique y su hitbox
         echeniqueGroup = new Group();
         // Cremos el rectángulo que atuará como hitbox y le damos posición tamaño y color
         Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
-        echeniqueHB.setFill(Color.TRANSPARENT);
+        echeniqueHB.setFill(Color.BLACK);
         // Lo añadimos al grupo 
         echeniqueGroup.getChildren().add(echeniqueHB);
         // Añadimos la imagen de Echenique
@@ -247,8 +248,8 @@ public class VoxAndGoblinsFX extends Application {
         // Creamos el grupo para el obstáculo del símbolo Feminazi
         feminaziGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox y le damos posición, tamaño y color
-        Rectangle feminaziHB = new Rectangle (feminaziX + 100, feminaziY + 125, 100, 50);
-        feminaziHB.setFill(Color.TRANSPARENT);
+        Rectangle feminaziHB = new Rectangle (feminaziX + 50, feminaziY + 100, 100, 100);
+        feminaziHB.setFill(Color.BLACK);
         // Lo añadimos al gurpo
         feminaziGroup.getChildren().add(feminaziHB);
         // Añadimos la imagen Feminazi
@@ -269,20 +270,20 @@ public class VoxAndGoblinsFX extends Application {
     }
     
     //Switch case de los obstáculos
-    public void obstRandom () {
-      // Utilizamos la función random para que el juego decida que obstáculo aparece 
-      Random random = new Random();
-      // Hacemos que coja un valo entero aleatorio entre 0 y 1 
-      aleatorio = random.nextInt(2);
-      switch (aleatorio) {
-        case 0:
-            obst1();
-            break;
-        case 1:
-            obst2();
-            break;
-        }
-    }
+//    public void obstRandom () {
+//      // Utilizamos la función random para que el juego decida que obstáculo aparece 
+//      Random random = new Random();
+//      // Hacemos que coja un valo entero aleatorio entre 0 y 1 
+//      aleatorio = random.nextInt(2);
+//      switch (aleatorio) {
+//        case 0:
+//            obst1();
+//            break;
+//        case 1:
+//            obst2();
+//            break;
+//        }
+//    }
     
     //Método para los obstáculos
     public void obstaculos () {
@@ -384,7 +385,7 @@ public class VoxAndGoblinsFX extends Application {
         toreroGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox con sus coordenadas, dimensiones y color
         Rectangle toreroHB = new Rectangle (toreroX + 60, toreroY + 15, 125, 160);
-        toreroHB.setFill(Color.TRANSPARENT);
+        toreroHB.setFill(Color.BLACK);
         // Lo añadimos al grupo
         toreroGroup.getChildren().add(toreroHB);
         // Añadimos la imgaen y la convertimos a ImageView para trabajar con ella
@@ -470,7 +471,7 @@ public class VoxAndGoblinsFX extends Application {
 //        this.toreroAbajo();
 //        toreroAgachado1.setVisible(false);
         this.caracteres();
-        this.obstRandom();
+//        this.obstRandom();
         this.obstaculos();
 //        this.obst1();
 //        this.obst2();
@@ -523,9 +524,9 @@ public class VoxAndGoblinsFX extends Application {
             }         
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
-            torerogif.setVisible(true);
-            echeniquegif.setVisible(true);
-            feminazi.setVisible(true);
+            toreroGroup.setVisible(true);
+            echeniqueGroup.setVisible(true);
+            feminaziGroup.setVisible(true);
 //            toreroAgachado1.setVisible(false);
             intro1.setVisible(false);
             velocidadTorero = downSpeed;  
@@ -560,6 +561,5 @@ public class VoxAndGoblinsFX extends Application {
         };
             movimiento.start(); 
             root.getChildren().add(groupMarcador);
-         
     }       
 };
