@@ -493,7 +493,7 @@ public class VoxAndGoblinsFX extends Application {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
                 // Hacemos que al pulsar la W y si la velocidad del Torero es igual a 0, el torero salte (aún no con su hitbox no se por qué)
-                case W:
+                case UP:
                    if (velocidadTorero == 0) {
                    velocidadTorero = toreroY;
                    velocidadTorero = upSpeed;
@@ -512,7 +512,7 @@ public class VoxAndGoblinsFX extends Application {
                     groupMarcador.setVisible(true);
                     break;
                 // Hacemos que al pulsar la D, la velocidad del Cristo se ponga a 6 y lo pongamos en visible    
-                case D:
+                case RIGHT:
                     cristo();
                     cristoSpeed = 6;
                     cristo.setVisible(true);
