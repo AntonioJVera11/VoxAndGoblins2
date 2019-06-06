@@ -43,13 +43,13 @@ public class VoxAndGoblinsFX extends Application {
     int toreroX = 45;
     int downSpeed = 5;
     int upSpeed = -15;
-    int cristoSpeed = 6;
-    int echeniqueX = 1500;
-    int echeniqueY = 475;
-    int feminaziY = 250;
-    int feminaziX = echeniqueX + 500;
-    int cristoX = -480;
-    int cristoY = 20;
+    int cristoSpeed = 0;
+    int echeniqueX = 700;
+    int echeniqueY = 240;
+    int feminaziY = 125;
+    int feminaziX = echeniqueX + 400;
+    int cristoX = -700;
+    int cristoY = 0;
     int aleatorio;
     int scoreSize;
     int rotacionCristo = 10;
@@ -80,7 +80,7 @@ public class VoxAndGoblinsFX extends Application {
         // Creamos el grupo para Echenique y su hitbox
         echeniqueGroup = new Group();
         // Cremos el rectángulo que atuará como hitbox y le damos posición tamaño y color
-        Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
+        Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY + 10, 30, 100);
         echeniqueHB.setFill(Color.BLACK);
         // Lo añadimos al grupo 
         echeniqueGroup.getChildren().add(echeniqueHB);
@@ -105,7 +105,7 @@ public class VoxAndGoblinsFX extends Application {
         // Creamos el rectángulo que actuará como hitbox y le damos posición, tamaño y color
         Rectangle feminaziHB = new Rectangle (feminaziX + 50, feminaziY + 100, 100, 100);
         feminaziHB.setFill(Color.BLACK);
-        // Lo añadimos al gurpo
+        // Lo añadimos al grupo
         feminaziGroup.getChildren().add(feminaziHB);
         // Añadimos la imagen Feminazi
         imgFeminazi = new Image(getClass().getResourceAsStream("images/Feminazi.png"));
@@ -166,6 +166,8 @@ public class VoxAndGoblinsFX extends Application {
         // Le damos unas coordenadas que determinarán su posición inicial
         cristo.setLayoutX(cristoX);
         cristo.setLayoutY(cristoY);
+        // Lo añadimos al panel
+        root.getChildren().add(cristo);
         
         // Ahora vamos a crear las colisiones con los obstaculos
     AnimationTimer animationObstaculos = new AnimationTimer() {
@@ -175,14 +177,6 @@ public class VoxAndGoblinsFX extends Application {
                 Shape shapeColision1 = Shape.intersect(echeniqueHB, toreroHB);
                 boolean colisionVacia = shapeColision1.getBoundsInLocal().isEmpty();
                 if(colisionVacia == false) {
-//                    toreroY = 380;
-//                    toreroX = 45;
-//                    imageView1.setX(posicion1);
-//                    imageView2.setX(posicion2);
-//                    echeniquegif.setX(echeniqueX);
-//                    echeniquegif.setY(echeniqueY);
-//                    feminazi.setX(2000);
-//                    feminazi.setY(250);
                     marcador = 0;              
                 }
 //                
@@ -190,90 +184,42 @@ public class VoxAndGoblinsFX extends Application {
                 Shape shapeColision2 = Shape.intersect(toreroHB, feminaziHB);
                 boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
                 if(colisionVacia2 == false) {
-//                    toreroY = 380;
-//                    toreroX = 45;
-//                    imageView1.setX(posicion1);
-//                    imageView2.setX(posicion2);
-//                    echeniquegif.setX(echeniqueX);
-//                    echeniquegif.setY(echeniqueY);
-//                    feminazi.setX(2000);
-//                    feminazi.setY(250);
                     marcador = 0; 
                 }
-                  // Colision entre Cristo y Feminazi, queremos que el juego se reinice
+                
+                  // Colision entre Cristo y Feminazi, queremos que Feminazi desaparezca
                 Shape shapeColision3 = Shape.intersect(cristo3, feminaziHB);
                 boolean colisionVacia3 = shapeColision3.getBoundsInLocal().isEmpty();
                 if(colisionVacia3 == false) {
-//                    toreroY = 380;
-//                    toreroX = 45;
-//                    imageView1.setX(posicion1);
-//                    imageView2.setX(posicion2);
-//                    echeniquegif.setX(echeniqueX);
-//                    echeniquegif.setY(echeniqueY);
-//                    feminazi.setX(2000);
-//                    feminazi.setY(250);
-                    cristo.setVisible(false);  
-                    feminaziGroup.setVisible(false);
+                    System.out.println("Colisión de cristo y feminazi");
+                    System.out.println("FeminaziX" + feminaziX);
+                    System.out.println("CristoX" + cristoX);
+                    cristo.setVisible(false);
+                    feminaziX = 1000;
+                    feminaziGroup.setLayoutX(feminaziX);
+                }
+                
+                // Con esto conseguiremos que el cristo se mueva
+                cristoX += cristoSpeed;
+                // Con esto conseguiremos que el cristo vaya rotando 
+                rotacionCristo += 2;
+                cristo.setRotate(rotacionCristo);
+                cristo.setLayoutX(cristoX);
+                if (cristoX >= 1300) {
+                    cristoSpeed = 0;
+                    cristoX = -1000;
+                    cristo.setVisible(false);
                 }
             };
        };
                 animationObstaculos.start();
     }
-    
-    //Obstaculo1
-    public void obst1 () {
-        // Creamos el grupo para Echenique y su hitbox
-        echeniqueGroup = new Group();
-        // Cremos el rectángulo que atuará como hitbox y le damos posición tamaño y color
-        Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY, 30, 100);
-        echeniqueHB.setFill(Color.BLACK);
-        // Lo añadimos al grupo 
-        echeniqueGroup.getChildren().add(echeniqueHB);
-        // Añadimos la imagen de Echenique
-        imgEchenique = new Image(getClass().getResourceAsStream("images/Echenique.gif"));
-        // La convertimos a ImageView
-        echeniquegif = new ImageView();
-        echeniquegif.setImage(imgEchenique);
-        // Le damos unas coordenadas
-        echeniquegif.setX(echeniqueX);
-        echeniquegif.setY(echeniqueY);
-        // La añadimos al grupo
-        echeniqueGroup.getChildren().add(echeniquegif);
-        // Añadimos el grupo compleo al panel 
-        root.getChildren().add(echeniqueGroup);
-    }
-    
-    //Obstaculo2
-    public void obst2 () {
-        // Creamos el grupo para el obstáculo del símbolo Feminazi
-        feminaziGroup = new Group();
-        // Creamos el rectángulo que actuará como hitbox y le damos posición, tamaño y color
-        Rectangle feminaziHB = new Rectangle (feminaziX + 50, feminaziY + 100, 100, 100);
-        feminaziHB.setFill(Color.BLACK);
-        // Lo añadimos al gurpo
-        feminaziGroup.getChildren().add(feminaziHB);
-        // Añadimos la imagen Feminazi
-        imgFeminazi = new Image(getClass().getResourceAsStream("images/Feminazi.png"));
-        // La convertimos a ImageView
-        feminazi = new ImageView();
-        feminazi.setImage(imgFeminazi);
-        // Le damos una escala, rotación y posición
-        feminazi.setScaleX(0.3);
-        feminazi.setScaleY(0.3);
-        feminazi.setRotate(270);
-        feminazi.setX(feminaziX);
-        feminazi.setY(feminaziY);
-        // La añadimos al grupo
-        feminaziGroup.getChildren().add(feminazi);
-        // Y añadimos el grupo al panel
-        root.getChildren().add(feminaziGroup);
-    }
-    
+
     //Switch case de los obstáculos
 //    public void obstRandom () {
 //      // Utilizamos la función random para que el juego decida que obstáculo aparece 
 //      Random random = new Random();
-//      // Hacemos que coja un valo entero aleatorio entre 0 y 1 
+//      // Hacemos que coja un valor entero aleatorio entre 0 y 1 
 //      aleatorio = random.nextInt(2);
 //      switch (aleatorio) {
 //        case 0:
@@ -293,15 +239,16 @@ public class VoxAndGoblinsFX extends Application {
       public void handle(long now) {
           // Trabajamos con el grupo echenique y modificamos su posición con AnimationTimer para simular movimiento
           echeniqueGroup.setLayoutX(echeniqueX);
-          echeniquegif.setY(echeniqueY);
+          System.out.println("Cambiando la X de echenique" + echeniqueX);
+          echeniqueGroup.setLayoutY(echeniqueY);
           echeniqueX += velocidad;
           // Trabajamos con el grupo feminazi y modificamos su posición con AnimationTimer para simular movimiento
           feminaziGroup.setLayoutX(feminaziX);
-          feminazi.setY(feminaziY);
+          feminaziGroup.setLayoutY(feminaziY);
           feminaziX += velocidad;
           // Definimos los límites en la pantalla que alcanzarán los obstáculos para luego volver al punto de partida
-          if (echeniqueX <= -1700) {
-              echeniqueX = 1500;
+          if (echeniqueX <= -900) {
+              echeniqueX = 1100;
           }
           if (feminaziX <= -2000) {
             feminaziX = 1500;
@@ -334,14 +281,18 @@ public class VoxAndGoblinsFX extends Application {
     //Método del reinicio
     public void reinicio () {  
         // En este método basicamente hacemos que todas las variables se queden como en el punto de partida para simular un comienzo
-        toreroY = 380;
-        toreroX = 45;
         imageView1.setX(posicion1);
         imageView2.setX(posicion2);
-        echeniquegif.setX(echeniqueX);
-        echeniquegif.setY(echeniqueY);
-        feminazi.setX(2000);
-        feminazi.setY(250);
+        echeniqueX = 700;
+        echeniqueGroup.setLayoutX(echeniqueX);
+        System.out.println("Posición en X del echeniqueGroup" + echeniqueX);
+        echeniqueY = 240;
+        echeniqueGroup.setLayoutY(echeniqueY);
+        feminaziX = echeniqueX + 400;
+        feminaziGroup.setLayoutX(feminaziX);
+        System.out.println("Posición en X del feminaziGroup" + feminaziX);
+        feminaziY = 125;
+        feminaziGroup.setLayoutY(feminaziY);
         marcador = 0;
     } 
     
@@ -401,62 +352,6 @@ public class VoxAndGoblinsFX extends Application {
         root.getChildren().add(toreroGroup);
     }
     
-    //Método del toreroAbajo
-    /*public void toreroAbajo () {
-        toreroAgachado = new Image(getClass().getResourceAsStream("images/Agachado.png"));
-        toreroAgachado1 = new ImageView();
-        int agachadoX = -50;
-        int agachadoY = 373;
-        toreroAgachado1.setImage(toreroAgachado);
-        toreroAgachado1.setX(agachadoX);
-        toreroAgachado1.setY(agachadoY);
-        toreroAgachado1.setScaleX(0.4);
-        toreroAgachado1.setScaleY(0.4);
-        root.getChildren().add(toreroAgachado1);
-    }*/
-    
-    //Método del grupo cristo
-    public void cristo () {
-        //Primero creamos la imagen a partir de un grupo llamado cristo
-        cristo = new Group();
-        // Creamos los 4 rectángulos que formarán el grupo y los añadimos al mismo
-        Rectangle cristo1 = new Rectangle(640, 360, 6, 30);
-        cristo1.setFill(Color.BROWN);
-        cristo.getChildren().add(cristo1);
-        Rectangle cristo2 = new Rectangle(640, 360, 20, 6);
-        cristo2.setFill(Color.BROWN);
-        cristo.getChildren().add(cristo2);
-        Rectangle cristo3 = new Rectangle(640, 350, 6, 30);
-        cristo3.setFill(Color.BROWN);
-        cristo.getChildren().add(cristo3);
-        Rectangle cristo4 = new Rectangle(627, 360, 20, 6);
-        cristo4.setFill(Color.BROWN);
-        cristo.getChildren().add(cristo4);
-        // Le damos unas coordenadas que determinarán su posición inicial
-        cristo.setLayoutX(cristoX);
-        cristo.setLayoutY(cristoY);
-        // Lo añadimos al panel
-        root.getChildren().add(cristo);
-        //Con esta función haremos que el cristo se mueva por la pantalla
-        AnimationTimer cruz = new AnimationTimer () {
-            @Override
-            public void handle(long now) {
-                // Con esto conseguiremos que el cristo se mueva
-                cristoX += cristoSpeed;
-                // Con esto conseguiremos que el cristo vaya rotando 
-                rotacionCristo += 2;
-                cristo.setRotate(rotacionCristo);
-                cristo.setLayoutX(cristoX);
-                if (cristoX >= 1300) {
-                    cristoSpeed = 0;
-                    cristoX = -1000;
-                    cristo.setVisible(false);
-                }               
-            }
-            };
-            cruz.start();
-    }
-    
     @Override
     public void start(Stage primaryStage) {
         // Añadimos el panel y la escena
@@ -467,14 +362,8 @@ public class VoxAndGoblinsFX extends Application {
         primaryStage.show();
         // Invocamos todos los métodos necesarios teniendo en cuenta el orden en el que los colocamos
         this.fondo();
-//        this.torero();
-//        this.toreroAbajo();
-//        toreroAgachado1.setVisible(false);
         this.caracteres();
-//        this.obstRandom();
         this.obstaculos();
-//        this.obst1();
-//        this.obst2();
         this.scoreImg();
         this.intro();
         
@@ -500,10 +389,6 @@ public class VoxAndGoblinsFX extends Application {
                    toreroGroup.setLayoutY(velocidadTorero);
                    }
                     break;
-//                case S:
-//                   torerogif.setVisible(false);
-//                   toreroAgachado1.setVisible(true);
-//                    break;
                 // Hacemos que al pulsar Enter, la intro deje de mostrarse, la velocidad sea -4 y el marcador se ponga a 0
                 case ENTER:
                     intro1.setVisible(false);
@@ -513,24 +398,21 @@ public class VoxAndGoblinsFX extends Application {
                     break;
                 // Hacemos que al pulsar la D, la velocidad del Cristo se ponga a 6 y lo pongamos en visible    
                 case RIGHT:
-                    cristo();
-                    cristoSpeed = 6;
+                    cristoSpeed = 25;
                     cristo.setVisible(true);
                     break;
-                // Hacemos que al presionar el espacio se     
+                // Hacemos que al presionar el espacio se reinicie el juego    
                 case SPACE:
                    reinicio();
                     break;
             }         
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
-            toreroGroup.setVisible(true);
-            echeniqueGroup.setVisible(true);
-            feminaziGroup.setVisible(true);
-//            toreroAgachado1.setVisible(false);
-            intro1.setVisible(false);
+//            toreroGroup.setVisible(true);
+//            echeniqueGroup.setVisible(true);
+//            feminaziGroup.setVisible(true);
+//            intro1.setVisible(false);
             velocidadTorero = downSpeed;  
-            cristoSpeed = 6;
         });
         //Método del scroll del fondo
         AnimationTimer movimiento = new AnimationTimer () {
