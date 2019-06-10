@@ -81,7 +81,7 @@ public class VoxAndGoblinsFX extends Application {
         echeniqueGroup = new Group();
         // Cremos el rectángulo que atuará como hitbox y le damos posición tamaño y color
         Rectangle echeniqueHB = new Rectangle(echeniqueX + 60, echeniqueY + 10, 30, 100);
-        echeniqueHB.setFill(Color.BLACK);
+        echeniqueHB.setFill(Color.TRANSPARENT);
         // Lo añadimos al grupo 
         echeniqueGroup.getChildren().add(echeniqueHB);
         // Añadimos la imagen de Echenique
@@ -104,7 +104,7 @@ public class VoxAndGoblinsFX extends Application {
         feminaziGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox y le damos posición, tamaño y color
         Rectangle feminaziHB = new Rectangle (feminaziX + 50, feminaziY + 100, 100, 100);
-        feminaziHB.setFill(Color.BLACK);
+        feminaziHB.setFill(Color.TRANSPARENT);
         // Lo añadimos al grupo
         feminaziGroup.getChildren().add(feminaziHB);
         // Añadimos la imagen Feminazi
@@ -130,7 +130,7 @@ public class VoxAndGoblinsFX extends Application {
         toreroGroup = new Group();
         // Creamos el rectángulo que actuará como hitbox con sus coordenadas, dimensiones y color
         Rectangle toreroHB = new Rectangle (toreroX + 60, toreroY + 15, 125, 160);
-        toreroHB.setFill(Color.BLACK);
+        toreroHB.setFill(Color.TRANSPARENT);
         // Lo añadimos al grupo
         toreroGroup.getChildren().add(toreroHB);
         // Añadimos la imgaen y la convertimos a ImageView para trabajar con ella
@@ -177,14 +177,14 @@ public class VoxAndGoblinsFX extends Application {
                 Shape shapeColision1 = Shape.intersect(echeniqueHB, toreroHB);
                 boolean colisionVacia = shapeColision1.getBoundsInLocal().isEmpty();
                 if(colisionVacia == false) {
-                    marcador = 0;              
+                    reinicio();              
                 }
 //                
 //                // Colision entre Torero y Feminazi, queremos que el juego se reinice
                 Shape shapeColision2 = Shape.intersect(toreroHB, feminaziHB);
                 boolean colisionVacia2 = shapeColision2.getBoundsInLocal().isEmpty();
                 if(colisionVacia2 == false) {
-                    marcador = 0; 
+                    reinicio(); 
                 }
                 
                   // Colision entre Cristo y Feminazi, queremos que Feminazi desaparezca
@@ -197,6 +197,7 @@ public class VoxAndGoblinsFX extends Application {
                     cristo.setVisible(false);
                     feminaziX = 1000;
                     feminaziGroup.setLayoutX(feminaziX);
+                    marcador = marcador + 500;
                 }
                 
                 // Con esto conseguiremos que el cristo se mueva
@@ -382,7 +383,7 @@ public class VoxAndGoblinsFX extends Application {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()) {
                 // Hacemos que al pulsar la W y si la velocidad del Torero es igual a 0, el torero salte (aún no con su hitbox no se por qué)
-                case UP:
+                case W:
                    if (velocidadTorero == 0) {
                    velocidadTorero = toreroY;
                    velocidadTorero = upSpeed;
@@ -397,7 +398,7 @@ public class VoxAndGoblinsFX extends Application {
                     groupMarcador.setVisible(true);
                     break;
                 // Hacemos que al pulsar la D, la velocidad del Cristo se ponga a 6 y lo pongamos en visible    
-                case RIGHT:
+                case D:
                     cristoSpeed = 25;
                     cristo.setVisible(true);
                     break;
@@ -408,11 +409,10 @@ public class VoxAndGoblinsFX extends Application {
             }         
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
-//            toreroGroup.setVisible(true);
-//            echeniqueGroup.setVisible(true);
-//            feminaziGroup.setVisible(true);
-//            intro1.setVisible(false);
-            velocidadTorero = downSpeed;  
+            switch(event.getCode()) {
+                case W:
+                velocidadTorero = downSpeed;                     
+            } 
         });
         //Método del scroll del fondo
         AnimationTimer movimiento = new AnimationTimer () {
